@@ -72,6 +72,12 @@ module.exports = {
           return res.status(400).send('User Cannot Log in');
       });
       // return res.redirect('/users/home');
+    },
+
+    singout: async (req,res) => {
+      res.removeHeader('key_token');
+      res.clearCookie('key_token');
+      return res.redirect('/');
     }
 
 };

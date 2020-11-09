@@ -12,6 +12,8 @@ module.exports = {
         const {error} = todoValidation(req.body);
         if(error) return res.status(400).send(error.details[0].message);
 
+        //  here need to validate the dates too like both dates should be greater than today's date and reminder date should be less than due date. We can do this using momentjs. Same is the case in update todo. Sorry i could not do it on time.
+
         // Creating a new todo task  
             const todo = new ToDo({
             user_id: req.user._id,
