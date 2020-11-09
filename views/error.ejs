@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <% include partials/head %> 
+</head>
+<body>
+<% include partials/menu %>
+
+<!--/ Error section /-->
+<div class="intro route bg-image d-flex align-items-center">
+    <div class="intro-content display-table">
+      <div class="table-cell">
+        <div class="container">       
+  
+          <br/><br/><br/><br/>
+          <h1 class="intro-title mb-4"><%= message %> : <%= error.status %></h1>
+          <br/>
+          <p class="intro-subtitle text-danger"><strong>
+            <% if (error.status == 404) { %>
+              The page you are looking for does not exits.
+            <% } else if (error.status == 400) { %>
+              Your session is invalid. Please <a href="/signin">Sign In</a> again.
+            <% } else if (error.status == 401) { %>
+              You cannot access the page.
+            <% } %>
+          </strong>            
+          </p>
+          <!-- <pre class="text-left text-danger overflow-wrap"><%= error.stack %></pre> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Error section /-->
+
+  <% include partials/footer %>
+</body>
+<% include partials/script %>
+</html>
