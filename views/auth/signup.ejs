@@ -55,6 +55,14 @@
                     <% } %>
                   </div>
               </div>
+              <div class="col-md-12 mb-3">
+                <div class="form-group">
+                  <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confrim Password" data-rule="minlen:8" data-msg="Please enter at least 8 chars of subject" />
+                  <% if (typeof validationError != 'undefined' && validationError["context"]["label"] == "confirm_password"){ %>
+                    <div class="validation show"><%= validationError.message %></div>
+                  <% } %>
+                </div>
+              </div>
               <div class="col-md-12">
                 <button type="submit" class="btn btn-primary btn-color px-4">Sign Up</button>
               </div>

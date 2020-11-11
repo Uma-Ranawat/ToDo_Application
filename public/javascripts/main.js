@@ -1,12 +1,26 @@
 $(document).ready(function(){
 	var element = $('meta[name="active-menu"]').attr('content');
-    $('#' + element).addClass('active');
+	$('#' + element).addClass('active');
+
+	if(document.getElementById("due_date") != null && document.getElementById("reminder_date") != null){
+		document.getElementById("due_date").min = new Date().toISOString().split("T")[0];
+		document.getElementById("reminder_date").min = new Date().toISOString().split("T")[0];
+		document.getElementById("reminder_date").max = document.getElementById("due_date").value;
+	}
+
+	
 });
+
+function dateChanged() {
+	document.getElementById("reminder_date").max = document.getElementById("due_date").value;
+}
 
 (function ($) {
 	"use strict";
 	var nav = $('nav');
   var navHeight = nav.outerHeight();
+
+  
 
   
 //   var element = $('meta[name="active-menu"]').attr('content');
@@ -59,30 +73,5 @@ $(document).ready(function(){
 			$('.navbar-expand-md').removeClass('navbar-reduce');
 		}
 	});
-
-	/*--/ Star Typed /--*/
-	if ($('.text-slider').length == 1) {
-    var typed_strings = $('.text-slider-items').text();
-		var typed = new Typed('.text-slider', {
-			strings: typed_strings.split(','),
-			typeSpeed: 80,
-			loop: true,
-			backDelay: 1100,
-			backSpeed: 30
-		});
-	}
-
-	/*--/ Testimonials owl /--*/
-	$('#testimonial-mf').owlCarousel({
-		margin: 20,
-		autoplay: true,
-		autoplayTimeout: 4000,
-		autoplayHoverPause: true,
-		responsive: {
-			0: {
-				items: 1,
-			}
-		}
-	});
-
+	
 })(jQuery);

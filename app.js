@@ -24,11 +24,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // ROUTE MIDDLEWARES
-app.use('/api', indexRouter);
-app.use('/api/users', usersRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // CATCH 404 AND FORWARD TO ERROR HANDLER
 app.use(function(req, res, next) {
@@ -42,9 +44,9 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // RENDER THE ERROR PAGE HERE
-  return res.status(err.status || 500).send(err.stack);
+  res.status(err.status || 500);
   // console.error("=========================ERROR=======================\n"+err.stack);
-  // res.render('error', { page: 'Error', menuId: ''});
+  res.render('error', { page: 'Error', menuId: ''});
 });
 
 module.exports = app;

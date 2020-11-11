@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <% include ../partials/head %> 
+</head>
+<body>
+<% include ../partials/menu %>
+
+<!--/ Intro Skew Star /-->
+<div id="home" class="intro route bg-image d-flex align-items-center">
+  <div class="intro-content display-table">
+    <div class="table-cell">
+      <div class="container">       
+
+        <br/><br/><br/><br/>
+        <div class="signup container-center">
+          <div class="title-box-2">
+            <h5 class="title-left">
+              ToDo Task
+            </h5>
+          </div>
+
+          <form action="/users/updateTodo" method="post" role="form" class="contactForm">
+            
+            <% if ((typeof todoMessage != 'undefined')){ %>
+              <div id="sendmessage" class="show"><%= todoMessage %></div>
+            <% } %>
+            <% if ((typeof todoError != 'undefined')){ %>
+              <div id="errormessage" class="show"><%= todoError %></div>
+            <% } %>
+            <br/>
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <div class="form-group">
+                  <input type="hidden" name="todo_id" id="todo_id" value="<%= todo_id %>" />
+                  <input type="text" name="description" class="form-control" id="description" placeholder="Description" data-rule="minlen:4" data-msg="Please enter at least 3 chars" value="<%= (typeof req != 'undefined') ? req.description : '' %>" />
+                  <% if (typeof validationError != 'undefined' && validationError["context"]["label"] == "description"){ %>
+                    <div class="validation show"><%= validationError.message %></div>
+                  <% } %>
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                <div class="form-group">
+                  <input type="date" class="form-control" name="due_date" id="due_date" placeholder="Due Date" data-rule="datetime" data-msg="Please enter a valid date" value="<%= (typeof req != 'undefined') ? new Date(req.due_date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0] %>" onchange="dateChanged()"/>
+                  <% if ((typeof validationError != 'undefined' && validationError["context"]["label"] == "due_date")){ %>
+                    <div class="validation show"><%= validationError.message %></div>
+                  <% } %>
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <input type="date" class="form-control" name="reminder_date" id="reminder_date" placeholder="Reminder Date" data-rule="datetime" data-msg="Please enter a valid date" value="<%= (typeof req != 'undefined') ? new Date(req.reminder_date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0] %>"/>
+                    <% if (typeof validationError != 'undefined' && validationError["context"]["label"] == "reminder_date"){ %>
+                      <div class="validation show"><%= validationError.message %></div>
+                    <% } %>
+                  </div>
+              </div>
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-color px-4">Update Task</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!--/ Intro Skew End /-->
+
+
+  
+<% include ../partials/footer %>
+</body>
+<% include ../partials/script %>
+</html>

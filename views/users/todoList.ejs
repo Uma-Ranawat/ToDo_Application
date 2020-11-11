@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <% include ../partials/head %> 
+</head>
+<body>
+<% include ../partials/menu %>
+
+<!--/ Main section /-->
+<div id="home" class="intro route bg-image d-flex align-items-center">
+  <div class="intro-content display-table">
+    <div class="table-cell">
+      <div class="container">      
+               
+        <div class="row d-flex justify-content-center todo-container">
+          <div class="col-md-8">
+              <div class="card-hover-shadow-2x mb-3 card">                
+                  <div class="card-header-tab card-header d-flex justify-content-between">
+                    
+                    <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i class="fa fa-tasks"></i>&nbsp;&nbsp;
+                        <% if (typeof pagetype != 'undefined' && pagetype == 'allTodo') { %>
+                            Task List of Logged in users.
+                        <% } else { %>
+                            Your Task List
+                        <% } %>
+                    </div>
+                      <div class="mr-4">
+                        <div class="dropdown">
+                          <button class="btn btn-primary btn-sm dropdown-toggle smaller btn-color" type="button" data-toggle="dropdown">Filter
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
+                            <% if (typeof pagetype != 'undefined' && pagetype == 'allTodo') { %>
+                                <li><a href="/getAllTodo/all" class="ml-3">All</a></li>
+                                <li><a href="/getAllTodo/complete" class="ml-3">Completed</a></li>
+                                <li><a href="/getAllTodo/incomplete" class="ml-3">InComplete</a></li>
+                            <% } else { %>
+                                <li><a href="/users/myTodoList/all" class="ml-3">All</a></li>
+                                <li><a href="/users/myTodoList/complete" class="ml-3">Completed</a></li>
+                                <li><a href="/users/myTodoList/incomplete" class="ml-3">InComplete</a></li>
+                            <% } %>                            
+                          </ul>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="scroll-area-sm">
+                      <perfect-scrollbar class="ps-show-limits">
+                          <div style="position: static;" class="ps ps--active-y">
+                              <div class="ps-content">
+                                  <ul class=" list-group list-group-flush">
+                                      <% if(typeof error != 'undefined') { %>
+                                        <li class="list-group-item" style="border-bottom: 1px solid lightgrey">
+                                            
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    
+                                                    <div class="widget-content-left">
+                                                        <div class="widget-heading"><%= error%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <% } else if(typeof data != 'undefined'){  %>
+                                        <% if( typeof failure != 'undefined') { %>
+                                            <div class="alert alert-danger fade show" role="alert">
+                                                <%= failure %>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>  
+                                            <script>
+                                                setTimeout(function () {
+                                                   window.location = "/users/myTodoList/all";
+                                                }, 3000)
+                                            </script>
+                                    
+                                        <% } else if(typeof success != 'undefined') { %>
+                                            <div class="alert alert-success fade show" role="alert">
+                                                <%= success %>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>  
+                                            <script>
+                                                setTimeout(function () {
+                                                   window.location = "/users/myTodoList/all";
+                                                }, 3000)
+                                            </script>
+                                    <%  }  data.forEach( (task) => { %>
+                                            <% if(typeof pagetype == 'undefined' || (pagetype == 'allTodo' && task.user_id.signin_flag == 1) ) { %>
+                                            <li class="list-group-item">
+                                        
+                                                <div class="widget-content p-0">
+                                                    <div class="widget-content-wrapper">
+                                                        
+                                                        <div class="widget-content-left text-left">
+                                                            <div class="widget-heading"><%= task.description %>
+                                                                <% if(task.status == 'complete') {%>
+                                                                    <div class="badge badge-success ml-2">Completed</div>
+                                                                <% } %>
+                                                            </div>
+
+                                                            <div class="widget-subheading">
+                                                            <%if(typeof task.user_id.name != 'undefined'){ %>
+                                                                By <%= task.user_id.name %><br/>
+                                                            <% } %>
+                                                        <%= moment(task.due_date).format('Do MMM, YYYY hh:mm a') %><br/>Reminder: <%= moment(task.reminder_date).format('Do MMM, YYYY hh:mm a') %></div>
+                                                        </div>
+                                                        <div class="widget-content-right"> 
+                                                            <% if(task.status == 'incomplete') {%>
+                                                                <a href="/users/markTodo/<%= task.id %>" class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></a> 
+                                                                <a href="/users/updateTodo/<%= task.id %>" class="border-0 btn-transition btn btn-outline-primary"> <i class="fa fa-pencil"></i></a>
+                                                            <% } %>                                                            
+                                                            
+                                                            <a href="/users/deleteTodo/<%= task.id %>" class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </a> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>  
+                                    <%      } 
+                                        });
+                                    } %>                                      
+                                    
+                                  </ul>
+                              </div>
+                          </div>
+                      </perfect-scrollbar>
+                  </div>
+                    <div class="d-block text-right card-footer">
+                    <% if (typeof pagetype == 'undefined' || pagetype != 'allTodo') { %>
+                    <a href="/users/createTodo" class="btn btn-primary btn-color">Add Task</a>                    
+                    <% } %>
+                    </div>
+                  
+              </div>
+          </div>
+      </div>      
+      </div>
+    </div>
+  </div>
+</div>
+<!--/ Main section /-->
+
+
+  
+<% include ../partials/footer %>
+</body>
+<% include ../partials/script %>
+</html>

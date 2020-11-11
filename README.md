@@ -1,4 +1,6 @@
-Start this project using npm start.
+Execute this project using "npm start" and access on localhost:3000.
 
-This project contains the api codes for ToDo application.
-I had already started making the front-end in this but since front-end and backend needs to be submitted separately I have commented out the front-end codes so the controller functions only return the relevant data.
+This project contains the front-end and the back-end code for ToDo application.
+To join the front-end with the back-end, I had to set the routes and pass the data appropriately through the routes and added code for dynamic rendering of the front-end pages according to the data they receive.
+
+For eg : to view all the tasks of the currently logged in user as well as all the tasks of all the currently logged in users (Todo List - List should display all the todos of the logged-in users ordered by their due-date.), the same view file 'users/todoList' is rendered but the content and layout of few things are different according to the page the user wants to access.
