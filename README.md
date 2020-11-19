@@ -1,3 +1,8 @@
+This is a Nodejs application to make a ToDo List of tasks. This project also includes authentication module with jwt tokens.
+The project is developed using Expressjs framework along with MongoDB.
+
+app.js includes the main code for creating and running the server along with loading the main modules.
+
 Execute this project using "npm start" and access on localhost:3000.
 
 This project contains the front-end and the back-end code for ToDo application.
